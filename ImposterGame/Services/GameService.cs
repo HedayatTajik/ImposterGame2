@@ -29,6 +29,10 @@ namespace ImposterGame.Services
             }
         }
 
+        public List<Player> ListNewPlayers()
+        {
+            return Players;
+        }
         public Player GetImposter() => Players.FirstOrDefault(p => p.IsImposter);
 
     }
