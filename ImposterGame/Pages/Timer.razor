@@ -1,0 +1,14 @@
+﻿@page "/timer"
+<PageTitle>Timer</PageTitle>
+<RadzenCard Style="width:90%; max-width:400px; margin:auto; text-align:center;">
+    <RadzenText TextStyle="TextStyle.DisplayH5"
+                Style="font-family: 'Far_Morvarid';
+                                    font-size: 1.8rem;
+                                    font-weight: 300;
+                                    color: #222;
+                                    text-align: center;">@formattedTime</RadzenText>
+
+    <RadzenButton Text="شروع مجدد بازی" Click="@StartAgain"
+                  Style="margin-top:10px;" />
+</RadzenCard>
+
