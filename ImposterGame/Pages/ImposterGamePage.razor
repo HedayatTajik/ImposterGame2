@@ -1,0 +1,76 @@
+﻿@page "/impostergame"
+<PageTitle>Imposter</PageTitle>
+@using ImposterGame.Models
+@using ImposterGame.Services
+@inject NavigationManager NavigationManager
+
+<h1>Imposter Lokalspiel</h1>
+
+@if (!gameStarted)
+{
+    <h3>Spieler eintragen</h3>
+    @for (int i = 0; i < playerCount; i++)
+    {
+        <RadzenTextBox Style="width:100%; margin-bottom:10px;" @bind-Value="playerNames[i]" Placeholder="Spielername" />
+    }
+    <RadzenButton Text="Spiel starten" Click="@StartGame" Style="width:100%; margin-top:10px;" />
+}
+else
+{
+    <RadzenCard Style="width:90%; max-width:400px; margin:auto; text-align:center;">
+        <h2>@currentPlayer.Name</h2>
+        @if (!currentPlayer.HasViewedCard)
+        {
+            <RadzenButton Text="Karte ansehen" Click="@ShowCard" Style="margin-top:10px;" />
+        }
+        else
+        {
+            <RadzenPanel Style="margin-top:10px; padding:10px; background:#ffdd59; color:#000;">
+                <p>@CardText</p>
+            </RadzenPanel>
+            <RadzenButton Text="Weitergeben" Click="@NextPlayer" Style="margin-top:10px;" />
+        }
+    </RadzenCard>
+}
+
+@code {
+    private int playerCount = 4;
+    private List<string> playerNames = new();
+    private bool gameStarted = false;
+    private int currentIndex = 0;
+
+    private WordService wordService = new();
+    private GameService gameService;
+
+    private Player currentPlayer => gameService.Players[currentIndex];
+
+    protected override void OnInitialized()
+    {
+        for (int i = 0; i < playerCount; i++)
+            playerNames.Add("");
+        gameService = new GameService(wordService);
+    }
+
+    private void StartGame()
+    {
+        foreach (var name in playerNames)
+        {
+            gameService.Players.Add(new Player { Name = name });
+        }
+        gameService.AssignRoles();
+        gameStarted = true;
+    }
+
+    private void ShowCard() => currentPlayer.HasViewedCard = true;
+
+    private void NextPlayer()
+    {
+        currentIndex++;
+        if (currentIndex >= gameService.Players.Count)
+        {
+            NavigationManager.NavigateTo("/vote");
+        }
+    }
+
+    private string CardText => currentPlayer.IsImposter ? "Du bist der Imposter!" : currentPlayer.Word;
+}

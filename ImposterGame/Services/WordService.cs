@@ -4,7 +4,7 @@
     {
         public List<string> Words { get; set; } = new()
         {
-            "Apfel","Banane","Haus","Auto","Baum","Schule"
+            "سیب","کیله","خانه","موتر","درخت"
         };
 
         private Random rnd = new();
