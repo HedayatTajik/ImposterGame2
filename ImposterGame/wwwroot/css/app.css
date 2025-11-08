@@ -12,6 +12,13 @@ body, html {
     text-align: right;
 }
 
+.custom-title-farsi {
+    font-family: 'Far_Morvarid';
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #222;
+    text-align: center;
+}
 h1:focus {
     outline: none;
 }
