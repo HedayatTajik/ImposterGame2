@@ -10,40 +10,50 @@
             font-weight: 600;
             color: #222;
             text-align: center;">
-    بازی شیاد  <RadzenImage Path="\Icons\Imposter.png" Style="width: 3rem;" />
+    بازی شیاد  <RadzenImage Path="\Icons\Imposter.png" Style="width: 4rem;" />
 </RadzenText>
 @if (!gameStarted)
 {
     <RadzenText TextStyle="TextStyle.DisplayH4"
                 Style="font-family: 'Far_Morvarid';
-                    font-size: 1.8rem;
-                    font-weight: 600;
-                    color: #222;
-                    text-align: center;">نام بازی کن ها را وارد کنید</RadzenText>
+                                font-size: 2rem;
+                                font-weight: 600;
+                                color: #123;
+                                text-align: center;">نام بازی کن ها را وارد کنید</RadzenText>
 
     <RadzenCard Style="width:90%; max-width:400px; margin:auto; text-align:center;">
         @foreach (var item in Players)
         {
-            <RadzenRow JustifyContent="JustifyContent.Right" AlignItems="@AlignItems.Center" Gap="3">
+            @if (!string.IsNullOrEmpty(item.Name))
+            {
+                <RadzenRow JustifyContent="JustifyContent.Right" AlignItems="@AlignItems.Center" Gap="3">
+                    <RadzenButton Click="() => RemovePlayer(item)"
+                                  Variant="Variant.Text"
+                                  Icon="close"
+                                  Size="ButtonSize.ExtraSmall"
+                                  ButtonStyle="ButtonStyle.Danger"
+                                  Style="" />
+                    <div class="rz-p-3">
+                        <RadzenText TextStyle="TextStyle.DisplayH5"
+                                    Style="font-family: 'Far_Morvarid';
+                                                                                    font-size: 1.8rem;
+                                                                                    font-weight: 300;
+                                                                                    color: #222;
+                                                                                    text-align: center;">@item.Name</RadzenText>
 
-                <RadzenButton Click="() => RemovePlayer(item)"
-                              Variant="Variant.Text"
-                              Icon="close"
-                              Size="ButtonSize.ExtraSmall"
-                              ButtonStyle="ButtonStyle.Danger"
-                              Style="" />
-                <div class="rz-p-3">
-                    <RadzenText TextStyle="TextStyle.DisplayH5"
-                                Style="font-family: 'Far_Morvarid';
-                                    font-size: 1.8rem;
-                                    font-weight: 300;
-                                    color: #222;
-                                    text-align: center;">@item.Name</RadzenText>
-                </div>
-            </RadzenRow>
+                    </div>
+                <RadzenImage Path="@currentPlayer.Uri" Style="width: 2rem;"></RadzenImage>
+                </RadzenRow>
+            }
+            else
+            {
+
+            }
         }
 
+    @*add name and select avatar *@
         <RadzenTextBox Style="width:100%; margin-bottom:10px;" @bind-Value="newPlayer.Name" Placeholder="نام" />
+        <SelectAvatar OnAvatarSelected="@HandleAvatarSelected"></SelectAvatar>
 
     </RadzenCard>
 
@@ -60,20 +70,23 @@ else
 {
     <RadzenCard Style="width:90%; max-width:400px; margin:auto; text-align:center;">
         <h2>@currentPlayer.Name</h2>
-            @if (!currentPlayer.HasViewedCard)
-            {
-                <RadzenButton Size="ButtonSize.Large" Text="دیدن کارت" Click="@ShowCard" Style="margin-top:10px;" />
-            }
-            else
-            {
-                <RadzenPanel Style="margin-top:10px; padding:10px; background:#ffdd59; color:#000;">
-                    <RadzenText TextStyle="TextStyle.DisplayH4"
-                                Style="font-family: 'Far_Morvarid';
-                                        font-size: 1.8rem;
-                                        font-weight: 600;
-                                        color: #222;
-                                         text-align: center;">@CardText</RadzenText>
-                </RadzenPanel>
+        <h2>@currentPlayer.Uri</h2>
+        <h2>@CardAvatar</h2>
+        <RadzenImage Path="@currentPlayer.Uri" Style="width: 2rem;"></RadzenImage>
+        @if (!currentPlayer.HasViewedCard)
+        {
+            <RadzenButton Size="ButtonSize.Large" Text="دیدن کارت" Click="@ShowCard" Style="margin-top:10px;" />
+        }
+        else
+        {
+            <RadzenPanel Style="margin-top:10px; padding:10px; background:#ffdd59; color:#000;">
+                <RadzenText TextStyle="TextStyle.DisplayH4"
+                            Style="font-family: 'Far_Morvarid';
+                                                                font-size: 1.8rem;
+                                                                font-weight: 600;
+                                                                color: #222;
+                                                                 text-align: center;">@CardText</RadzenText>
+            </RadzenPanel>
 
             @if (currentIndex >= gameService.Players.Count - 1)
             {
@@ -82,9 +95,9 @@ else
             }
             else
             {
-            <RadzenButton Size="ButtonSize.Large" Text="نفر بعدی" Click="@NextPlayer" Style="margin-top:10px;" />
+                <RadzenButton Size="ButtonSize.Large" Text="نفر بعدی" Click="@NextPlayer" Style="margin-top:10px;" />
             }
-            }
+        }
     </RadzenCard>
 }
 

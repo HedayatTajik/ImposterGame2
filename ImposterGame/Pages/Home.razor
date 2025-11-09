@@ -1,9 +1,13 @@
 ﻿@page "/"
-
+@inject NavigationManager NavigationManager
 
 <h1>خانه </h1>
-
+<br />
+<RadzenButton Variant="Variant.Outlined" Size="ButtonSize.Large" Shade="Shade.Darker" Click=@(args => OnClick()) Text="بازی شیاد" ButtonStyle="ButtonStyle.Info" />
 
 @code {
-   
+    public void OnClick()
+    {
+        NavigationManager.NavigateTo($"/impostergame");
+    }
 }

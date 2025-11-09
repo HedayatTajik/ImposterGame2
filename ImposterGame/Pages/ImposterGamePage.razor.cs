@@ -8,9 +8,9 @@ namespace ImposterGame.Pages
     {
         private int playerCount = 4;
         private List<string> playerNames = new();
+        private string SelectedAvatar = "";
         private bool gameStarted = false;
         private int currentIndex = 0;
-
         private WordService wordService = new();
         private GameService gameService;
 
@@ -29,7 +29,7 @@ namespace ImposterGame.Pages
         {
             if (!string.IsNullOrEmpty(newPlayer.Name))
             {
-            gameService.Players.Add(new Player { Name = newPlayer.Name, Uri = newPlayer.Uri});
+            gameService.Players.Add(new Player { Name = newPlayer.Name, Uri = SelectedAvatar});
             Players = gameService.ListNewPlayers();
             }
             newPlayer = new();
@@ -58,5 +58,12 @@ namespace ImposterGame.Pages
         }
 
         private string CardText => currentPlayer.IsImposter ? "شما شیاد هستین" : currentPlayer.Word;
+        private string CardAvatar => currentPlayer.Uri;
+
+
+        private void HandleAvatarSelected(string avatar)
+        {
+            SelectedAvatar = avatar;
+        }
     }
 }

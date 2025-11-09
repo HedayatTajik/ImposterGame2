@@ -129,3 +129,49 @@ code {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
 }
+
+.avatar-scroll {
+    display: flex;
+    flex-wrap: wrap; /* keeps items in one row */
+    overflow-x: auto; /* enables horizontal scrolling */
+    overflow-y: auto; /* no vertical scroll */
+    max-height: 200px; /* limit total height */
+    gap: 1rem; /* spacing between avatars */
+    padding: 0.5rem 1rem;
+    scrollbar-width: thin; /* Firefox scrollbar style */
+    scroll-behavior: smooth; /* smooth scroll for touch/mouse */
+}
+
+    /* Optional: customize scrollbars for WebKit (Chrome, Edge, Safari) */
+    .avatar-scroll::-webkit-scrollbar {
+        height: 3px;
+    }
+
+    .avatar-scroll::-webkit-scrollbar-thumb {
+        background-color: #ccc;
+        border-radius: 4px;
+    }
+
+        .avatar-scroll::-webkit-scrollbar-thumb:hover {
+            background-color: #999;
+        }
+
+/* Avatar items */
+.avatar-item {
+    flex: 0 0 auto; /* prevent shrinking */
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    transition: border-color 0.2s ease;
+}
+
+    .avatar-item:hover {
+        border-color: #0078d4;
+    }
+
+    .avatar-item img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
