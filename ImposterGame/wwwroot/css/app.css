@@ -1,7 +1,24 @@
-html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+@font-face {
+    font-family: 'Far_Morvarid';
+    src: url('/fonts/Far_Morvarid.ttf') format('ttf'), url('/fonts/Far_Morvarid.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
+body, html {
+    font-family: 'Far_Morvarid', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    direction: rtl; /* for right-to-left layout */
+    text-align: right;
+}
+
+.custom-title-farsi {
+    font-family: 'Far_Morvarid';
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #222;
+    text-align: center;
+}
 h1:focus {
     outline: none;
 }

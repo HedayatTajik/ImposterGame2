@@ -1,0 +1,62 @@
+﻿using ImposterGame.Models;
+using ImposterGame.Services;
+using Microsoft.AspNetCore.Components;
+
+namespace ImposterGame.Pages
+{
+    public partial class ImposterGamePage
+    {
+        private int playerCount = 4;
+        private List<string> playerNames = new();
+        private bool gameStarted = false;
+        private int currentIndex = 0;
+
+        private WordService wordService = new();
+        private GameService gameService;
+
+        private List<Player> Players = new();
+        private Player newPlayer = new();
+        private Player currentPlayer => gameService.Players[currentIndex];
+
+        protected override void OnInitialized()
+        {
+            for (int i = 0; i < playerCount; i++)
+                playerNames.Add("");
+            gameService = new GameService(wordService);
+        }
+
+        private void AddPlayer()
+        {
+            if (!string.IsNullOrEmpty(newPlayer.Name))
+            {
+            gameService.Players.Add(new Player { Name = newPlayer.Name, Uri = newPlayer.Uri});
+            Players = gameService.ListNewPlayers();
+            }
+            newPlayer = new();
+        }
+        private void RemovePlayer(Player player)
+        {
+            _ = Players.Remove(player);
+        }
+
+        private void AssignRoles()
+        {
+            gameService.AssignRoles();
+            gameStarted = true;
+        }
+
+        private void ShowCard() => currentPlayer.HasViewedCard = true;
+
+        private void NextPlayer()
+        {
+            currentIndex++;
+        }
+
+        private void StartGame()
+        {
+            NavigationManager.NavigateTo($"/timer?playerCount={Players.Count}");
+        }
+
+        private string CardText => currentPlayer.IsImposter ? "شما شیاد هستین" : currentPlayer.Word;
+    }
+}
