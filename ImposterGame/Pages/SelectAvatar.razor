@@ -1,0 +1,15 @@
+﻿
+
+<RadzenStack Orientation="Orientation.Vertical"
+             AlignItems="AlignItems.Center"
+             JustifyContent="JustifyContent.Start"
+             Wrap="FlexWrap.Wrap"
+             class="avatar-scroll">
+
+    @foreach (var avatar in Avatars)
+    {
+        <div class="avatar-item" @onclick="() => SelectAvatarFunc(avatar)">
+            <img src="@avatar" alt="Avatar" />
+        </div>
+    }
+</RadzenStack>
