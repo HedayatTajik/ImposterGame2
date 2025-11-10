@@ -12,7 +12,7 @@ namespace ImposterGame.Pages
 
         protected override void OnInitialized()
         {
-            string folderPath = "icons";
+            string folderPath = "Icons";
             for (int i = 1; i <= 20; i++)
             {
                 Avatars.Add($"/{folderPath}/avatar_{i}.png");
