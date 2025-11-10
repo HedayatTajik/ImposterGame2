@@ -16,7 +16,7 @@ namespace ImposterGame.Pages
             for (int i = 1; i <= 20; i++)
             {
                 Avatars.Add($"/{folderPath}/avatar_{i}.png");
-            }
+            } 
         }
         private async Task SelectAvatarFunc(string avatar)
         {
