@@ -9,9 +9,6 @@
     @foreach (var avatar in Avatars)
     {
         <div class="avatar-item" @onclick="() => SelectAvatarFunc(avatar)">
-            <div>
-                @avatar
-            </div>
             <img src="@avatar" alt="Avatar" />
         </div>
     }
