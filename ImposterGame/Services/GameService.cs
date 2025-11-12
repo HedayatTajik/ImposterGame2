@@ -25,7 +25,6 @@ namespace ImposterGame.Services
                 Players[i].IsImposter = i == imposterIndex;
                 Players[i].Word = Players[i].IsImposter ? null : word;
                 Players[i].HasViewedCard = false;
-                Players[i].Uri = "";
             }
         }
 
