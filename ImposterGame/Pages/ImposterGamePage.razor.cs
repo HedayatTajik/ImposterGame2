@@ -27,10 +27,12 @@ namespace ImposterGame.Pages
 
         private void AddPlayer()
         {
+            int id = 1;
             if (!string.IsNullOrEmpty(newPlayer.Name))
             {
-            gameService.Players.Add(new Player { Name = newPlayer.Name, Uri = SelectedAvatar});
-            Players = gameService.ListNewPlayers();
+                gameService.Players.Add(new Player { Id = id, Name = newPlayer.Name, Uri = SelectedAvatar });
+                id++;
+                Players = gameService.ListNewPlayers();
             }
             newPlayer = new();
         }
