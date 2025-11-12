@@ -1,15 +1,34 @@
-﻿
-
-<RadzenStack Orientation="Orientation.Vertical"
+﻿<RadzenStack Orientation="Orientation.Horizontal"
              AlignItems="AlignItems.Center"
-             JustifyContent="JustifyContent.Start"
+             JustifyContent="JustifyContent.Center"
              Wrap="FlexWrap.Wrap"
-             class="avatar-scroll">
+             Gap="5px"
+             Style="
+                 max-width:480px;
+                 margin:auto;
+                 margin-top:5px;
+                 max-height:40vh;       /* 60% der Höhe des Viewports */
+                 overflow-y:auto;       /* vertikales Scrollen bei Überlauf */
+                 padding:1px;
+             ">
 
     @foreach (var avatar in Avatars)
     {
-        <div class="avatar-item" @onclick="() => SelectAvatarFunc(avatar)">
-            <img src="@avatar" alt="Avatar" />
-        </div>
+        <RadzenCard Style="
+                        width:6rem;
+                        height:6rem;
+                        border-radius:50%;
+                        overflow:hidden;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        box-shadow:0 3px 8px rgba(0,0,0,0.2);
+                        cursor:pointer;
+                        transition:transform 0.15s ease-in-out;"
+                    @onclick="() => SelectAvatarFunc(avatar)">
+
+            <RadzenImage Path="@avatar"
+                         Style="width:100%; height:100%; object-fit:cover;" />
+        </RadzenCard>
     }
 </RadzenStack>

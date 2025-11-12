@@ -4,67 +4,83 @@
 @using ImposterGame.Services
 @inject NavigationManager NavigationManager
 
-
-
-<RadzenText TextStyle="TextStyle.DisplayH3"
-            Style="font-family: 'Far_Morvarid';
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: #222;
-            text-align: center;">
-    بازی شیاد  <RadzenImage Path="\Icons\mask.png" Style="width: 4rem;" />
-</RadzenText>
 @if (!gameStarted)
 {
-    <RadzenText TextStyle="TextStyle.DisplayH4"
-                Style="font-family: 'Far_Morvarid';
-                                    font-size: 2rem;
-                                    font-weight: 600;
-                                    color: #123;
-                                    text-align: center;">نام بازی کن ها را وارد کنید</RadzenText>
+    <RadzenCard Style="
+        width:100%;
+        max-width:520px;
+        margin:auto;
+        text-align:center;
+        border-radius:20px;
+        box-shadow:0 4px 12px rgba(0,0,0,0.1);
+        padding:20px;
+        background:#fff;">
 
-    <RadzenCard Style="width:90%; max-width:400px; margin:auto; text-align:center;">
-        @foreach (var item in Players)
-        {
-            @if (!string.IsNullOrEmpty(item.Name))
+        <RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Stretch" Gap="7px">
+
+            <!-- Spielerliste -->
+            @foreach (var item in Players)
             {
-                <RadzenRow JustifyContent="JustifyContent.Right" AlignItems="@AlignItems.Center" Gap="3">
-                    <RadzenButton Click="() => RemovePlayer(item)"
-                                  Variant="Variant.Text"
-                                  Icon="close"
-                                  Size="ButtonSize.ExtraSmall"
-                                  ButtonStyle="ButtonStyle.Danger"
-                                  Style="" />
-                    <div class="rz-p-3">
-                        <RadzenText TextStyle="TextStyle.DisplayH5"
-                                    Style="font-family: 'Far_Morvarid';
-                                                                                                font-size: 1.8rem;
-                                                                                                font-weight: 300;
-                                                                                                color: #222;
-                                                                                                text-align: center;">@item.Name</RadzenText>
+                @if (!string.IsNullOrEmpty(item.Name))
+                {
+                    <RadzenStack Orientation="Orientation.Horizontal"
+                                 AlignItems="AlignItems.Center"
+                                 JustifyContent="JustifyContent.SpaceBetween"
+                                 Style="background:#f5f6fa; border-radius:12px; padding:10px 15px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
 
-                    </div>
-                    <RadzenImage Path="@item.Uri" Style="width: 2rem;"></RadzenImage>
-                </RadzenRow>
+                        <RadzenImage Path="@item.Uri"
+                                     Style="width:2.8rem; height:2.5rem; border-radius:50%; object-fit:cover;" />
+
+                        <RadzenText Text="@item.Name"
+                                    Style="
+                                                font-family:'Far_Morvarid';
+                                                font-size:1.6rem;
+                                                font-weight:400;
+                                                color:#222;
+                                                text-align:right;
+                                                flex:1;
+                                                margin-right:10px;" />
+
+                        <RadzenButton Icon="close"
+                                      Size="ButtonSize.Small"
+                                      Variant="Variant.Text"
+                                      ButtonStyle="ButtonStyle.Danger"
+                                      Click="() => RemovePlayer(item)"
+                                      Style="min-width:0; padding:4px;" />
+                    </RadzenStack>
+                }
             }
-            else
-            { }
-        }
 
-        @*add name and select avatar *@
-        <RadzenTextBox Style="width:100%; margin-bottom:10px;" @bind-Value="newPlayer.Name" Placeholder="نام" />
-        <SelectAvatar OnAvatarSelected="@HandleAvatarSelected"></SelectAvatar>
 
+
+            <SelectAvatar OnAvatarSelected="@HandleAvatarSelected" />
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="2px">
+
+                <RadzenTextBox @bind-Value="newPlayer.Name"
+                               Placeholder="نام بازیکن جدید"
+                               Style="flex:1; font-size:1.2rem;" />
+
+                <RadzenButton Text="➕"
+                              Click="@AddPlayer"
+                              Size="ButtonSize.Large"
+                              ButtonStyle="ButtonStyle.Primary"
+                              Style="border-radius:12px; font-size:1.5rem; font-weight:600; color:white !important; background-color:#4a90e2; border:none;" />
+
+                @if (Players.Count >= 3)
+                {
+                    <RadzenButton Text="🎮"
+                                  Click="@AssignRoles"
+                                  Size="ButtonSize.Large"
+                                  ButtonStyle="ButtonStyle.Success"
+                                  Style="border-radius:12px; font-size:1.5rem; font-weight:600;" />
+                }
+
+            </RadzenStack>
+        </RadzenStack>
     </RadzenCard>
 
 
-    <RadzenButton Text="اضافه کردن بازی کن" Click="@AddPlayer" Style="width:100%; margin-top:10px;" />
 
-    @if (Players.Count >= 3)
-    {
-
-        <RadzenButton Text="شروع بازی" click="@AssignRoles" Style="width:100%; margin-top:10px;" />
-    }
 }
 else
 {
