@@ -14,7 +14,6 @@ namespace ImposterGame.Pages
         private int Id = 1;
         private WordService wordService = new();
         private GameService gameService;
- 
 
         private List<Player> Players = new();
         private Player newPlayer = new();
@@ -26,13 +25,16 @@ namespace ImposterGame.Pages
         }
         private void AddPlayer()
         {
-            if (!string.IsNullOrEmpty(newPlayer.Name))
+            if (!string.IsNullOrEmpty(newPlayer.Name) && !string.IsNullOrEmpty(SelectedAvatar))
             {
                 gameService.Players.Add(new Player { Id = Id, Name = newPlayer.Name, Uri = SelectedAvatar });
                 Id++;
                 Players = gameService.ListNewPlayers();
+
+                // Reset selected avatar für den nächsten Spieler
+                SelectedAvatar = null;
+                newPlayer = new();
             }
-            newPlayer = new();
         }
         private void RemovePlayer(Player player)
         {

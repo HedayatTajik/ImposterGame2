@@ -53,7 +53,7 @@
 
 
 
-            <SelectAvatar OnAvatarSelected="@HandleAvatarSelected" />
+            <SelectAvatar AfterSelectAvatar="@SelectedAvatar" OnAvatarSelected="@HandleAvatarSelected" />
             <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="2px">
 
                 <RadzenTextBox @bind-Value="newPlayer.Name"
