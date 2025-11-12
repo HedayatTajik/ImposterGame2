@@ -31,8 +31,8 @@ namespace ImposterGame.Pages
         private string GetAvatarStyle(string avatar)
         {
             var style = @"
-                width:6rem;
-                height:6rem;
+                width:5rem;
+                height:5rem;
                 border-radius:50%;
                 overflow:hidden;
                 display:flex;
