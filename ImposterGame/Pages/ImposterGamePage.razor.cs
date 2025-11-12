@@ -11,8 +11,10 @@ namespace ImposterGame.Pages
         private string SelectedAvatar = "";
         private bool gameStarted = false;
         private int currentIndex = 0;
+        private int Id = 1;
         private WordService wordService = new();
         private GameService gameService;
+ 
 
         private List<Player> Players = new();
         private Player newPlayer = new();
@@ -20,18 +22,14 @@ namespace ImposterGame.Pages
 
         protected override void OnInitialized()
         {
-            for (int i = 0; i < playerCount; i++)
-                playerNames.Add("");
             gameService = new GameService(wordService);
         }
-
         private void AddPlayer()
         {
-            int id = 1;
             if (!string.IsNullOrEmpty(newPlayer.Name))
             {
-                gameService.Players.Add(new Player { Id = id, Name = newPlayer.Name, Uri = SelectedAvatar });
-                id++;
+                gameService.Players.Add(new Player { Id = Id, Name = newPlayer.Name, Uri = SelectedAvatar });
+                Id++;
                 Players = gameService.ListNewPlayers();
             }
             newPlayer = new();
