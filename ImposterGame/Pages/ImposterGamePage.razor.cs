@@ -8,37 +8,49 @@ namespace ImposterGame.Pages
     {
         private int playerCount = 4;
         private List<string> playerNames = new();
-        private string SelectedAvatar = "";
+        private string selectedAvatar = string.Empty;
         private bool gameStarted = false;
         private int currentIndex = 0;
-        private int Id = 1;
+        private int nextPlayerId = 1;
+
         private WordService wordService = new();
         private GameService gameService;
 
-        private List<Player> Players = new();
+        private List<Player> players = new();
         private Player newPlayer = new();
-        private Player currentPlayer => gameService.Players[currentIndex];
+
+        private Player CurrentPlayer => gameService.Players[currentIndex];
 
         protected override void OnInitialized()
         {
             gameService = new GameService(wordService);
         }
+
         private void AddPlayer()
         {
-            if (!string.IsNullOrEmpty(newPlayer.Name) && !string.IsNullOrEmpty(SelectedAvatar))
+            if (!string.IsNullOrWhiteSpace(newPlayer.Name) && !string.IsNullOrEmpty(selectedAvatar))
             {
-                gameService.Players.Add(new Player { Id = Id, Name = newPlayer.Name, Uri = SelectedAvatar });
-                Id++;
-                Players = gameService.ListNewPlayers();
+                var player = new Player
+                {
+                    Id = nextPlayerId,
+                    Name = newPlayer.Name,
+                    Uri = selectedAvatar
+                };
 
-                // Reset selected avatar für den nächsten Spieler
-                SelectedAvatar = null;
-                newPlayer = new();
+                gameService.Players.Add(player);
+                nextPlayerId++;
+
+                players = gameService.ListNewPlayers();
+
+                // Reset for next player
+                selectedAvatar = string.Empty;
+                newPlayer = new Player();
             }
         }
+
         private async Task RemovePlayer(Player player)
         {
-            Players = await gameService.DeleteUser(player);
+            players = await gameService.DeleteUser(player);
         }
 
         private void AssignRoles()
@@ -47,25 +59,30 @@ namespace ImposterGame.Pages
             gameStarted = true;
         }
 
-        private void ShowCard() => currentPlayer.HasViewedCard = true;
+        private void ShowCard()
+        {
+            CurrentPlayer.HasViewedCard = true;
+        }
 
         private void NextPlayer()
         {
-            currentIndex++;
+            if (currentIndex < gameService.Players.Count - 1)
+                currentIndex++;
         }
 
         private void StartGame()
         {
-            NavigationManager.NavigateTo($"/timer?playerCount={Players.Count}");
+            NavigationManager.NavigateTo($"/timer?playerCount={players.Count}");
         }
 
-        private string CardText => currentPlayer.IsImposter ? "شما شیاد هستین" : currentPlayer.Word;
-        private string CardAvatar => currentPlayer.Uri;
-
+        private string CardText => CurrentPlayer.IsImposter ? "شما شیاد هستین" : CurrentPlayer.Word;
+        private string CardAvatar => CurrentPlayer.Uri;
 
         private void HandleAvatarSelected(string avatar)
         {
-            SelectedAvatar = avatar;
+            selectedAvatar = avatar;
         }
+
+
     }
 }

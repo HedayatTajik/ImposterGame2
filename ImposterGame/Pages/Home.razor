@@ -9,6 +9,15 @@
                   Size="ButtonSize.Large"
                   Shade="Shade.Darker"
                   Style="width:100%; border-radius:12px; font-family:'Far_Morvarid'; font-size:1.2rem; font-weight:600;" />
+
+    <RadzenButton Text="درباره بازی شیاد"
+                  Click="@GoToAbout"
+                  Variant="Variant.Outlined"
+                  ButtonStyle="ButtonStyle.Info"
+                  Size="ButtonSize.Large"
+                  Shade="Shade.Darker"
+                  Style="width:100%; border-radius:12px; font-family:'Far_Morvarid'; font-size:1.2rem; font-weight:600; margin-top: 10px;" />
+
 </RadzenCard>
 
 @code {
@@ -16,4 +25,9 @@
     {
         NavigationManager.NavigateTo("/impostergame");
     }
+    private void GoToAbout()
+    {
+        NavigationManager.NavigateTo("/aboutgame");
+    }
+
 }
