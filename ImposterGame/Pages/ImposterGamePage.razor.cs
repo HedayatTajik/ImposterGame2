@@ -36,9 +36,9 @@ namespace ImposterGame.Pages
                 newPlayer = new();
             }
         }
-        private void RemovePlayer(Player player)
+        private async Task RemovePlayer(Player player)
         {
-            _ = Players.Remove(player);
+            Players = await gameService.DeleteUser(player);
         }
 
         private void AssignRoles()
