@@ -1,38 +1,44 @@
-﻿
-using ImposterGame.Models;
+﻿using ImposterGame.Models;
 
 namespace ImposterGame.Services
 {
     public class GameService
     {
-        private WordService wordService;
-        private Random rnd = new();
+        private readonly WordService _wordService;
+        private readonly Random _random = new();
 
-        public List<Player> Players { get; set; } = new();
+        public List<Player> Players { get; } = new();
 
-        public GameService(WordService ws)
+        public GameService(WordService wordService)
         {
-            wordService = ws;
+            _wordService = wordService;
         }
-
         public void AssignRoles()
         {
-            string word = wordService.GetRandomWord();
-            int imposterIndex = rnd.Next(Players.Count);
+            if (Players.Count == 0)
+                return;
+
+            string word = _wordService.GetRandomWord();
+            int imposterIndex = _random.Next(Players.Count);
 
             for (int i = 0; i < Players.Count; i++)
             {
-                Players[i].IsImposter = i == imposterIndex;
-                Players[i].Word = Players[i].IsImposter ? null : word;
-                Players[i].HasViewedCard = false;
+                var player = Players[i];
+                player.IsImposter = i == imposterIndex;
+                player.Word = player.IsImposter ? null : word;
+                player.HasViewedCard = false;
             }
         }
-
-        public List<Player> ListNewPlayers()
+        public async Task<List<Player>> DeleteUser(Player player)
         {
+            if (player != null)
+            {
+                Players.Remove(player);
+            }
             return Players;
         }
-        public Player GetImposter() => Players.FirstOrDefault(p => p.IsImposter);
-
+        public List<Player> ListNewPlayers() => Players;
+        public Player? GetImposter() =>
+            Players.FirstOrDefault(p => p.IsImposter);
     }
 }
