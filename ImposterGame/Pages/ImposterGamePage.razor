@@ -72,7 +72,11 @@
 
                 @if (players.Count >= 3)
                 {
-          
+                    <RadzenButton Text="🎮"
+                                  Click="@AssignRoles"
+                                  Size="ButtonSize.Large"
+                                  ButtonStyle="ButtonStyle.Success"
+                                  Style="border-radius:12px; font-size:1.5rem; font-weight:600;" />
                 }
             </RadzenStack>
         </RadzenStack>
